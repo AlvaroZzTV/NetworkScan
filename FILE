@@ -1,0 +1,101 @@
+Para escanear todos los hosts en una red, puedes usar diferentes herramientas según el objetivo. Aquí tienes algunos métodos efectivos:
+
+---
+
+### **1. Nmap**
+Nmap es una de las herramientas más poderosas y flexibles para escaneo de redes.  
+
+#### Ejemplo básico:
+```
+sudo nmap -sn 192.168.1.0/24
+```
+- Escanea todos los hosts activos en la red `192.168.1.0/24` mediante un *ping sweep*.  
+- Útil para descubrir dispositivos conectados.
+
+#### Con MAC Spoofing para evitar detección:
+```
+sudo nmap -sn -PR --spoof-mac 00:11:22:33:44:55 192.168.1.0/24
+```
+- Realiza un escaneo de ARP con una dirección MAC falsa.
+
+#### Escaneo completo con servicios:
+```
+sudo nmap -A -T4 192.168.1.0/24
+```
+- Detecta sistemas operativos, servicios y versiones en todos los hosts.
+
+---
+
+### **2. Netdiscover**
+Una herramienta más sencilla y rápida, útil para redes locales.  
+
+#### Ejemplo:
+```
+sudo netdiscover -r 192.168.1.0/24
+```
+- Escanea todos los hosts activos en la red usando ARP.
+
+---
+
+### **3. Ping Broadcast**
+En redes que permiten difusiones (*broadcast*), puedes descubrir rápidamente dispositivos activos.  
+
+#### Ejemplo:
+```
+ping -b 192.168.1.255
+```
+- Envía paquetes ICMP a todos los dispositivos en la red.  
+- *Nota:* No todos los dispositivos responderán si tienen ICMP deshabilitado.
+
+---
+
+### **4. ARP Scan**
+Detecta dispositivos en una red local mediante el protocolo ARP.  
+
+#### Ejemplo:
+```
+sudo arp-scan -l
+```
+- Escanea todos los dispositivos conectados a la red local.
+
+---
+
+### **5. Fping**
+Herramienta ligera para enviar *pings* a rangos de IP rápidamente.  
+
+#### Ejemplo:
+```
+fping -a -g 192.168.1.0/24
+```
+- Escanea el rango de IPs y muestra los dispositivos que responden.
+
+---
+
+### **6. Masscan**
+Para escaneos más rápidos y de mayor alcance, aunque requiere configuración más detallada.  
+
+#### Ejemplo:
+```
+sudo masscan 192.168.1.0/24 -p1-65535 --rate 1000
+```
+- Escanea todos los puertos en todos los hosts de la red con una velocidad limitada a 1000 paquetes/segundo.
+
+---
+
+### **7. IP y MAC con Nmap**
+Para identificar dispositivos con sus direcciones MAC y fabricantes:  
+
+```
+sudo nmap -sn --script arp-scan 192.168.1.0/24
+```
+- Escaneo a nivel de enlace de datos para obtener direcciones MAC y nombres de fabricantes.
+
+---
+
+### **¿Cuál usar?**
+- **Red local pequeña:** Netdiscover o Nmap.  
+- **Escaneo rápido:** Fping o Nmap `-sn`.  
+- **Detección completa:** Nmap con opciones agresivas.  
+- **Grandes rangos:** Masscan.  
+
+Estas opciones cubren desde descubrimiento básico hasta análisis detallado de hosts en cualquier red.
