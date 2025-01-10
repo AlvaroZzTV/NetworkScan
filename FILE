@@ -46,6 +46,13 @@ Para identificar dispositivos con sus direcciones MAC y fabricantes:
 
 ######## METASPLOIT ########
 
+service postgresql start
+msfconsole
+db_status
+workspace -a Port_Scan
+search portscan 
+use (Numero)
+
 ---
 
 
